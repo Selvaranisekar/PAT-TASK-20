@@ -1,5 +1,4 @@
 import time
-import selenium
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.service import Service
@@ -24,18 +23,21 @@ class Labour:
     def close(self):
         self.driver.close()
 
-    def documents(self,driver):
-        self.driver.ActionChains(driver)
-        document = self.driver.find_element(By.XPATH, "(//a[@href='/annual-reports'])[1]")
+    def document(self):
+
+        annual_report = self.driver.find_element(By.XPATH, "(//a[@href='/annual-reports'])[1]")
         Reports = self.driver.find_element(By.XPATH, "//a[normalize-space()='Monthly Progress Report']")
-        ActionChains(driver).move_to_element(document).perform()
-        # ActionChains(driver).move_to_element(Reports).click()
-        Reports.click()
+        action=ActionChains(self.driver)
+        action.move_to_element(annual_report).click().perform()
+        action.move_to_element(Reports).click()
 
 if __name__ == "__main__":
     labour = Labour("https://labour.gov.in/")
     labour.start()
     time.sleep(10)
-    labour.documents()
+    labour.document()
     time.sleep(5)
+    print("done")
+
+
 
